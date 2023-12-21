@@ -1,0 +1,18 @@
+spin_manifest_version = 2
+
+[application]
+authors = ["Matt Butcher <matt.butcher@fermyon.com>"]
+description = "A quick sentiment analysis tool"
+name = "sentiment"
+version = "0.1.0"
+
+[[trigger.http]]
+route = "/..."
+component = "sentiment"
+
+[component.sentiment]
+source = "target/sentiment.wasm"
+exclude_files = ["**/node_modules"]
+ai_models = ["llama2-chat"]         # ADDED THIS LINE
+[component.sentiment.build]
+command = "npm run build"
