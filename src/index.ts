@@ -1,12 +1,14 @@
 // I added `Llm` and `InferencingModels` to the imports
 import { Llm, InferencingModels, HandleRequest, HttpRequest, HttpResponse } from "@fermyon/spin-sdk"
 
+// We'll use this to get the data out of the request.
+const decoder = new TextDecoder();
+
 export const handleRequest: HandleRequest = async function (request: HttpRequest): Promise<HttpResponse> {
 
-  // My new code:
-
   // My input
-  const sentence = "Today is the greatest day I've ever known"
+  //const sentence = "Today is the greatest day I've ever known"
+  const sentence = decoder.decode(request.body)
 
   // The prompt we described above.
   const prompt = `<s>
@@ -37,7 +39,7 @@ export const handleRequest: HandleRequest = async function (request: HttpRequest
 
   return {
     status: 200,
-    headers: { "content-type": "text/plain" },
-    body: `I said: ${sentence}\nThe LLM answered: ${answer.text}`
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(answer)
   }
 }
